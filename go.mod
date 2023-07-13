@@ -1,4 +1,4 @@
-module github.com/tonylambiris/go-kbdgrab
+module github.com/yhyj/kbdstage
 
 go 1.20
 
