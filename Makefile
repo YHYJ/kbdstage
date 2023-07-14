@@ -31,6 +31,6 @@ tidy:
 
 deps:
 	@echo "Getting required dependencies..."
-	@go get -u github.com/kevinburke/go-bindata/...
+	@go install github.com/kevinburke/go-bindata/...
 
 .PHONY: build deps bundle
