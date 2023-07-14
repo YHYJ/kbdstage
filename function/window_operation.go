@@ -126,8 +126,6 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 	// 调用keybind.GrabKeyboard拦截指定窗口的键盘输入
 	if err := keybind.GrabKeyboard(X, rootWindow); err != nil {
 		panic(err)
-	} else {
-		fmt.Println("Grabbing keyboard input...")
 	}
 
 	// 生成一个新窗口ID
@@ -164,15 +162,9 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			modStr := keybind.ModifierString(e.State)
 			// LookupString()返回一个字符串，表示按下的键（英文字符串）
 			keyStr := keybind.LookupString(X, e.State, e.Detail)
-			// 输出按下的键
-			if len(modStr) > 0 {
-				fmt.Printf("Key pressed: %s-%s\n", modStr, keyStr)
-			} else {
-				fmt.Printf("Key pressed: %s\n", keyStr)
-			}
 			// 如果按下的是Ctrl-ESC组合键，则退出
 			if keybind.KeyMatch(X, "Escape", e.State, e.Detail) {
-				fmt.Println("Ctrl-ESC pressed. Exiting...")
+				fmt.Printf("%s-%s pressed, exiting...\n", modStr, keyStr)
 				xevent.Quit(X)
 			}
 		}).Connect(X, rootWindow)
