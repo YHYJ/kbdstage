@@ -52,9 +52,9 @@ func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, s
 
 	// 将渐变应用到图像
 	img.ForExp(func(x, y int) (uint8, uint8, uint8, uint8) {
-		return uint8(int(start_color.R) + (rinc * x)),
-			uint8(int(start_color.G) + (ginc * x)),
-			uint8(int(start_color.B) + (binc * x)),
+		return uint8(int(start_color.R) + (rinc * x)/0xff),
+			uint8(int(start_color.G) + (ginc * x)/0xff),
+			uint8(int(start_color.B) + (binc * x)/0xff),
 			0xff
 	})
 
@@ -117,7 +117,7 @@ func rawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 }
 
 // 创建一个窗口
-func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
+func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
 	// 获取当前根窗口
 	rootWindow := X.RootWin()
 	// 对X连接调用一次keybind.Initialize
@@ -170,9 +170,9 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			} else {
 				fmt.Printf("Key pressed: %s\n", keyStr)
 			}
-			// 如果按下的是Ctrl-Esc组合键，则退出
+			// 如果按下的是Ctrl-ESC组合键，则退出
 			if keybind.KeyMatch(X, "Escape", e.State, e.Detail) {
-				fmt.Println("Ctrl-Esc pressed. Exiting...")
+				fmt.Println("Ctrl-ESC pressed. Exiting...")
 				xevent.Quit(X)
 			}
 		}).Connect(X, rootWindow)
