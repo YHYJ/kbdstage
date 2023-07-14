@@ -6,7 +6,7 @@ COUNT=$(shell git rev-list --count HEAD)
 BUILDTAG=${COUNT}.${SHA}
 
 BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
-ifeq ($(BRANCH),master)
+ifeq ($(BRANCH),main)
 BUILDTYPE=release
 else
 BUILDTYPE=$(BRANCH)
@@ -17,13 +17,13 @@ all: deps bundle build
 build: bundle
 	@go build -trimpath -ldflags \
 		"-s -w -X main.Build=${BUILDTAG} -X main.Type=${BUILDTYPE}" \
-		-o kbdgrab
+		-o kbdstage
 
 bundle: deps
-	@go-bindata LCD_Solid.ttf
+	@bash load_ttf.sh
 
 clean:
-	@rm -f kbdgrab bindata.go
+	@rm -f kbdstage function/resource_ttf.go
 
 tidy:
 	@echo "Tidying up dependencies..."
