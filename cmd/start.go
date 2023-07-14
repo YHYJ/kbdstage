@@ -10,18 +10,17 @@ Description: 程序子命令'start'时执行
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/yhyj/kbdstage/function"
 )
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start keyboard input interception",
-	Long:  `Start the Kbdstage keyboard input interceptor.`,
+	Long:  `Start the KbdStage keyboard input interceptor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("start called")
+		function.Start()
 	},
 }
 
