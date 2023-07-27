@@ -17,6 +17,7 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
+	"strings"
 	"time"
 
 	"github.com/BurntSushi/xgb/xproto"
@@ -52,9 +53,9 @@ func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, s
 
 	// 将渐变应用到图像
 	img.ForExp(func(x, y int) (uint8, uint8, uint8, uint8) {
-		return uint8(int(start_color.R) + (rinc * x)/0xff),
-			uint8(int(start_color.G) + (ginc * x)/0xff),
-			uint8(int(start_color.B) + (binc * x)/0xff),
+		return uint8(int(start_color.R) + (rinc*x)/0xff),
+			uint8(int(start_color.G) + (ginc*x)/0xff),
+			uint8(int(start_color.B) + (binc*x)/0xff),
 			0xff
 	})
 
@@ -152,9 +153,8 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 	// 调用Map()绘制窗口
 	newWindow.Map()
 
-	// Q: 这里为什么再次调用Listen()?
-	// A: 因为在调用Map()之后，窗口会接收到Expose事件，所以需要再次调用Listen()来监听Expose事件
-	// newWindow.Listen(xproto.EventMaskKeyPress)
+	// 因为在调用Map()之后，窗口会接收到Expose事件，所以需要再次调用Listen()来监听Expose事件
+	newWindow.Listen(xproto.EventMaskKeyPress)
 
 	xevent.KeyPressFun(
 		func(X *xgbutil.XUtil, e xevent.KeyPressEvent) {
@@ -164,8 +164,10 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			keyStr := keybind.LookupString(X, e.State, e.Detail)
 			// 如果按下的是Ctrl-ESC组合键，则退出
 			if keybind.KeyMatch(X, "Escape", e.State, e.Detail) {
-				fmt.Printf("%s-%s pressed, exiting...\n", modStr, keyStr)
-				xevent.Quit(X)
+				if e.State&xproto.ModMaskControl > 0 {
+					fmt.Printf("%s-%s pressed, exiting...\n", strings.Title(modStr), strings.Title(keyStr))
+					xevent.Quit(X)
+				}
 			}
 		}).Connect(X, rootWindow)
 
