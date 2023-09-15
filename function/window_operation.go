@@ -14,10 +14,11 @@ package function
 import (
 	"bytes"
 	"fmt"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"image"
 	"image/color"
 	"math/rand"
-	"strings"
 	"time"
 
 	"github.com/BurntSushi/xgb/xproto"
@@ -165,7 +166,8 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			// 如果按下的是Ctrl-ESC组合键，则退出
 			if keybind.KeyMatch(X, "Escape", e.State, e.Detail) {
 				if e.State&xproto.ModMaskControl > 0 {
-					fmt.Printf("%s-%s pressed, exiting...\n", strings.Title(modStr), strings.Title(keyStr))
+					caser := cases.Title(language.English)
+					fmt.Printf("%s-%s pressed, exiting...\n", caser.String(modStr), caser.String(keyStr))
 					xevent.Quit(X)
 				}
 			}
