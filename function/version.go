@@ -14,10 +14,13 @@ import "fmt"
 // 程序信息
 var (
 	name    string = "KbdStage"
-	version string = "v0.1.5"
+	version string = "v0.1.6"
 )
 
-func ProgramInfo() string {
-	programInfo := fmt.Sprintf("\033[1m%s\033[0m %s \033[1m%s\033[0m\n", name, "version", version)
+func ProgramInfo(only bool) string {
+	programInfo := fmt.Sprintf("%s\n", version)
+	if !only {
+		programInfo = fmt.Sprintf("%s version %s\n", name, version)
+	}
 	return programInfo
 }
