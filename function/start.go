@@ -31,7 +31,7 @@ var (
 	// 界面文本字体放大倍率
 	fontScale = 100.0
 	// 界面文本
-	message  = "Capturing keyboard input, type Ctrl-ESC to exit."
+	message  = "Capturing keyboard input, type Control-Alt-ESC to exit."
 )
 
 func Start() {
