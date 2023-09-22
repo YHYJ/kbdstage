@@ -14,12 +14,13 @@ package function
 import (
 	"bytes"
 	"fmt"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"image"
 	"image/color"
 	"math/rand"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 
 	"github.com/BurntSushi/xgb/xproto"
 	"github.com/BurntSushi/xgbutil"
@@ -163,21 +164,22 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			modStr := keybind.ModifierString(e.State)
 			// LookupString()返回一个字符串，表示按下的键（英文字符串）
 			keyStr := keybind.LookupString(X, e.State, e.Detail)
-			// 如果按下的是Ctrl-ESC组合键，则退出
-			if keybind.KeyMatch(X, "Escape", e.State, e.Detail) {
-				if e.State&xproto.ModMaskControl > 0 {
-					caser := cases.Title(language.English)
-					fmt.Printf("%s-%s pressed, exiting...\n", caser.String(modStr), caser.String(keyStr))
-					xevent.Quit(X)
+			// 如果按下的是Ctrl-Alt-ESC组合键，则退出（9代表ESC键）
+			if e.State&xproto.ModMaskControl > 0 && e.State&xproto.ModMask1 > 0 && e.Detail == 9 {
+				caser := cases.Title(language.English)
+				if caser.String(modStr) == "Control-Mod1" {
+					modStr = "Control-Alt"
 				}
+				fmt.Printf("%s-%s pressed, exiting...\n", caser.String(modStr), caser.String(keyStr))
+				xevent.Quit(X)
 			}
 		}).Connect(X, rootWindow)
 
-	// TODO: 这个if语句的作用是什么？ <13-07-23, YJ> //
+	// 发送一个窗口管理器状态请求信息，请求窗口切换到全屏模式
 	if err := ewmh.WmStateReq(X, newWindow.Id, ewmh.StateToggle, "_NET_WM_STATE_FULLSCREEN"); err != nil {
 		panic(err)
 	}
-	// TODO: 这个if语句的作用是什么？ <13-07-23, YJ> //
+	// 发送一个窗口管理器状态请求信息，请求窗口切换到最上层
 	if err := ewmh.WmStateReq(X, newWindow.Id, ewmh.StateToggle, "_NET_WM_STATE_ABOVE"); err != nil {
 		panic(err)
 	}
