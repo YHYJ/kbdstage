@@ -31,7 +31,3 @@ Keyboard input grabber written in golang, now the keyboard is a stage
 ## 示例
 
 ![Alt text](screenshots/1.png?raw=true "1.png")
-
-![Alt text](screenshots/2.png?raw=true "2.png")
-
-![Alt text](screenshots/3.png?raw=true "3.png")
