@@ -36,7 +36,7 @@ var (
 
 func Start() {
 	// 初始化随机数种子
-	rand.Seed(time.Now().UnixNano())
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	X, err := xgbutil.NewConn()
 	if err != nil {
