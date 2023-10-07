@@ -25,6 +25,6 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	startCmd.Flags().BoolP("help", "h", false, "help for start")
+	startCmd.Flags().BoolP("help", "h", false, "help for start command")
 	rootCmd.AddCommand(startCmd)
 }
