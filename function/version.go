@@ -14,7 +14,7 @@ import "fmt"
 // 程序信息
 var (
 	name    string = "KbdStage"
-	version string = "v0.2.9"
+	version string = "v0.3.0"
 )
 
 func ProgramInfo(only bool) string {
