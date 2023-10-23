@@ -13,7 +13,7 @@ import "fmt"
 
 // 程序信息
 var (
-	name    string = "KbdStage"
+	name    string = "kbdstage"
 	version string = "v0.3.0"
 )
 

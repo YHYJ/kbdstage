@@ -18,7 +18,7 @@ import (
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start keyboard input interception",
-	Long:  `Start the KbdStage keyboard input interceptor.`,
+	Long:  `Start the kbdstage keyboard input interceptor.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		function.Start()
 	},

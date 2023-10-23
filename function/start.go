@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	Name = "KbdStage"
+	Name = "kbdstage"
 	Path = "github.com/yhyj/kbdstage"
 )
 

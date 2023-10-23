@@ -18,7 +18,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "kbdStage",
 	Short: "keyboard input interceptor",
-	Long:  `KbdStage intercepts keyboard input, then cleans the keyboard.`,
+	Long:  `kbdstage intercepts keyboard input, then cleans the keyboard.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -32,5 +32,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("help", "h", false, "help for KbdStage")
+	rootCmd.Flags().BoolP("help", "h", false, "help for kbdstage")
 }
