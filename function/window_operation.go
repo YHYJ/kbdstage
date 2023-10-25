@@ -17,6 +17,7 @@ import (
 	"image"
 	"image/color"
 	"math/rand"
+	"strings"
 	"time"
 
 	"golang.org/x/text/cases"
@@ -167,10 +168,10 @@ func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			// 如果按下的是Ctrl-Alt-ESC组合键，则退出（9代表ESC键）
 			if e.State&xproto.ModMaskControl > 0 && e.State&xproto.ModMask1 > 0 && e.Detail == 9 {
 				caser := cases.Title(language.English)
-				if caser.String(modStr) == "Control-Mod1" {
+				if strings.HasSuffix(strings.ToLower(caser.String(modStr)), "control-mod1") {
 					modStr = "Control-Alt"
 				}
-				fmt.Printf("%s-%s pressed, exiting...\n", caser.String(modStr), caser.String(keyStr))
+				fmt.Printf("%s-%s pressed, exiting...\n", modStr, caser.String(keyStr))
 				xevent.Quit(X)
 			}
 		}).Connect(X, rootWindow)
