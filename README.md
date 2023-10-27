@@ -11,23 +11,67 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [使用](#使用)
-* [示例](#示例)
+* [Usage](#usage)
+* [Compile](#compile)
+* [Screenshot](#screenshot)
 
 <!-- vim-markdown-toc -->
 
 ---
 
-Keyboard input grabber written in golang, now the keyboard is a stage
+<!------------------------------------------------>
+<!--  _    _         _     _                    -->
+<!-- | | _| |__   __| |___| |_ __ _  __ _  ___  -->
+<!-- | |/ / '_ \ / _` / __| __/ _` |/ _` |/ _ \ -->
+<!-- |   <| |_) | (_| \__ \ || (_| | (_| |  __/ -->
+<!-- |_|\_\_.__/ \__,_|___/\__\__,_|\__, |\___| -->
+<!--                                |___/       -->
+<!------------------------------------------------>
 
 ---
 
-## 使用
+一个键盘输入拦截器，用来擦键盘的
+
+## Usage
+
+- `start`子命令
+
+    开始拦截键盘输入
+
+- `version`子命令
+
+    查看程序版本信息
+
+- `help`
+
+    查看程序帮助信息
+
+## Compile
+
+- 编译当前平台可执行文件：
+
+```bash
+go build main.go
+```
+
+- **交叉编译**指定平台可执行文件：
+
+```bash
+# 适用于Linux AArch64平台
+CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags='-s -w' -trimpath -o eniac main.go
+```
+
+```bash
+# 适用于macOS amd64平台
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags='-s -w' -trimpath -o eniac main.go
+```
+
+```bash
+# 适用于Windows amd64平台
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags='-s -w' -trimpath -o eniac main.go
+```
 
 
-`kbdstage start`
-
-
-## 示例
+## Screenshot
 
 ![Alt text](screenshots/1.png?raw=true "1.png")
