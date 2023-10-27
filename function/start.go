@@ -18,11 +18,6 @@ import (
 	"github.com/BurntSushi/xgbutil/xevent"
 )
 
-const (
-	Name = "kbdstage"
-	Path = "github.com/yhyj/kbdstage"
-)
-
 var (
 	// 界面文本字体
 	ttf = "resource/LCD_Solid.ttf"
@@ -31,7 +26,7 @@ var (
 	// 界面文本字体放大倍率
 	fontScale = 100.0
 	// 界面文本
-	message  = "Capturing keyboard input, type Control-Alt-ESC to exit."
+	message = "Capturing keyboard input, type Control-Alt-ESC to exit."
 )
 
 func Start() {
