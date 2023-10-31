@@ -13,15 +13,22 @@ import "fmt"
 
 // 程序信息
 const (
-	Name    = "Kbdstage"
-	Version = "v0.3.3"
-	Path    = "github.com/yhyj/kbdstage"
+	name    = "Kbdstage"
+	version = "v0.3.3"
+	project = "github.com/yhyj/kbdstage"
+)
+
+// 编译信息
+var (
+	gitCommitHash string = "unknown"
+	buildTime     string = "unknown"
+	buildBy       string = "unknown"
 )
 
 func ProgramInfo(only bool) string {
-	programInfo := fmt.Sprintf("%s\n", Version)
+	programInfo := fmt.Sprintf("%s\n", version)
 	if !only {
-		programInfo = fmt.Sprintf("%s version %s\n", Name, Version)
+		programInfo = fmt.Sprintf("%s version: %s\nGit commit hash: %s\nBuilt on: %s\nBuilt by: %s\n", name, version, gitCommitHash, buildTime, buildBy)
 	}
 	return programInfo
 }
