@@ -21,7 +21,7 @@ import (
 
 var (
 	// 界面文本字体
-	ttf = "resource/LCD_Solid.ttf"
+	ttf = "resources/font/LCD_Solid.ttf"
 	// 界面文本字体大小
 	fontSize = 0.0
 	// 界面文本字体放大倍率

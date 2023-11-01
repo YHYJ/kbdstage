@@ -15,8 +15,8 @@ Depends:
 -
 !
 
-package="function"                # 生成的go文件的package
-input="resource/LCD_Solid.ttf"    # 字体文件
-output="function/resource_ttf.go" # 生成的go文件
+package="general"                    # 生成的go文件的package
+input="resources/font/LCD_Solid.ttf" # 字体文件
+output="general/resource_ttf.go"     # 生成的go文件
 
 go-bindata -pkg $package -o $output $input
