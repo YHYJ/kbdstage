@@ -18,7 +18,6 @@
     * [Linux](#linux)
     * [macOS](#macos)
     * [Windows](#windows)
-* [Screenshot](#screenshot)
 
 <!-- vim-markdown-toc -->
 
@@ -56,7 +55,7 @@
 ### 当前平台
 
 ```bash
-go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/function.buildTime=`date +%s` -X github.com/yhyj/kbdstage/function.buildBy=$USER" -o kbdstage main.go
+go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
 ```
 
 ### 交叉编译
@@ -66,7 +65,7 @@ go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/functi
 #### Linux
 
 ```bash
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/function.buildTime=`date +%s` -X github.com/yhyj/kbdstage/function.buildBy=$USER" -o kbdstage main.go
+CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
 ```
 
 > 使用`uname -m`确定硬件架构
@@ -77,7 +76,7 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s
 #### macOS
 
 ```bash
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/function.buildTime=`date +%s` -X github.com/yhyj/kbdstage/function.buildBy=$USER" -o kbdstage main.go
+CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
 ```
 
 > 使用`uname -m`确定硬件架构
@@ -88,14 +87,10 @@ CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-
 #### Windows
 
 ```powershell
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -H windowsgui -X github.com/yhyj/kbdstage/function.buildTime=`date +%s` -X github.com/yhyj/kbdstage/function.buildBy=$USER" -o kbdstage main.go
+CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -H windowsgui -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage.exe main.go
 ```
 
 > 使用`echo %PROCESSOR_ARCHITECTURE%`确定硬件架构
 >
 > - 结果是x86_64则GOARCH=amd64
 > - 结果是aarch64则GOARCH=arm64
-
-## Screenshot
-
-![Alt text](screenshots/1.png?raw=true "1.png")
