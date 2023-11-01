@@ -18,6 +18,7 @@
     * [Linux](#linux)
     * [macOS](#macos)
     * [Windows](#windows)
+* [Screenshot](#screenshot)
 
 <!-- vim-markdown-toc -->
 
@@ -94,3 +95,7 @@ CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="
 >
 > - 结果是x86_64则GOARCH=amd64
 > - 结果是aarch64则GOARCH=arm64
+
+## Screenshot
+
+![Screenshot](resources/screenshots/1.png)
