@@ -25,3 +25,6 @@ tags
 go.work
 
 dist/
+
+# Build artifacts
+build/
