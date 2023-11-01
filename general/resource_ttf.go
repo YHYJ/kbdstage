@@ -2,7 +2,7 @@
 // sources:
 // resource/LCD_Solid.ttf (34.9kB)
 
-package function
+package general
 
 import (
 	"bytes"

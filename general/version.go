@@ -7,7 +7,7 @@ Created Time: 2023-07-13 11:40:35
 Description: 子命令`version`功能函数
 */
 
-package function
+package general
 
 import "fmt"
 

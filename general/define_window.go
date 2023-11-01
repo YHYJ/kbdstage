@@ -1,5 +1,5 @@
 /*
-File: window_operation.go
+File: define_window.go
 Author: YJ
 Email: yj1516268@outlook.com
 Created Time: 2023-07-13 13:42:38
@@ -9,7 +9,7 @@ Description: 窗口操作
 由于我对键盘事件不是很熟悉，某些代码及其注释并不是很理解
 */
 
-package function
+package general
 
 import (
 	"bytes"
@@ -32,16 +32,6 @@ import (
 	"github.com/BurntSushi/xgbutil/xrect"
 	"github.com/BurntSushi/xgbutil/xwindow"
 )
-
-// 返回一个随机的color.RGBA
-func randomColorRGBA() color.RGBA {
-	return color.RGBA{
-		R: uint8(rand.Intn(256)),
-		G: uint8(rand.Intn(256)),
-		B: uint8(rand.Intn(256)),
-		A: 0xff,
-	}
-}
 
 // 渲染渐变
 func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color color.RGBA, ttf string, message string, size float64) {
@@ -97,7 +87,7 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	}
 
 	// 绘制文本
-	_, _, err = img.Text(x, y, randomColorRGBA(), size, font, text)
+	_, _, err = img.Text(x, y, RandomColorRGBA(), size, font, text)
 	if err != nil {
 		panic(err)
 	}
@@ -110,8 +100,18 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	img.SubImage(bounds).(*xgraphics.Image).XDraw()
 }
 
+// 返回一个随机的color.RGBA
+func RandomColorRGBA() color.RGBA {
+	return color.RGBA{
+		R: uint8(rand.Intn(256)),
+		G: uint8(rand.Intn(256)),
+		B: uint8(rand.Intn(256)),
+		A: 0xff,
+	}
+}
+
 // 获取窗口的几何信息
-func rawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
+func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 	geometry, err := xproto.GetGeometry(X.Conn(), window).Reply()
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func rawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 }
 
 // 创建一个窗口
-func newWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
+func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
 	// 获取当前根窗口
 	rootWindow := X.RootWin()
 	// 对X连接调用一次keybind.Initialize

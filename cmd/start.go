@@ -11,7 +11,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/yhyj/kbdstage/function"
+	"github.com/yhyj/kbdstage/cli"
 )
 
 // startCmd represents the start command
@@ -20,7 +20,7 @@ var startCmd = &cobra.Command{
 	Short: "Start keyboard input interception",
 	Long:  `Start the kbdstage keyboard input interceptor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		function.Start()
+		cli.Start()
 	},
 }
 
