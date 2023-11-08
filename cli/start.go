@@ -30,6 +30,7 @@ var (
 	message = "Capturing keyboard input, type Control-Alt-ESC to exit."
 )
 
+// Start 启动 Kbdstage
 func Start() {
 	// 初始化随机数种子
 	rand.New(rand.NewSource(time.Now().UnixNano()))

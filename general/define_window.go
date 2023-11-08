@@ -33,7 +33,7 @@ import (
 	"github.com/BurntSushi/xgbutil/xwindow"
 )
 
-// 渲染渐变
+// renderGradient 渲染渐变
 func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color color.RGBA, ttf string, message string, size float64) {
 	// xgraphics.New()创建一个新的xgraphics.Image
 	// img.Rect()绘制一个矩形，前两个参数是Pt(x0, y0)，后两个参数是Pt(x1, y1)
@@ -69,7 +69,7 @@ func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, s
 	img.Destroy()
 }
 
-// 渲染文本
+// renderText 渲染文本
 func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, y int) {
 	// 加载字体文件
 	fontData, err := Asset(ttf)
@@ -100,7 +100,7 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	img.SubImage(bounds).(*xgraphics.Image).XDraw()
 }
 
-// 返回一个随机的color.RGBA
+// RandomColorRGBA 返回一个随机的 color.RGBA
 func RandomColorRGBA() color.RGBA {
 	return color.RGBA{
 		R: uint8(rand.Intn(256)),
@@ -110,7 +110,7 @@ func RandomColorRGBA() color.RGBA {
 	}
 }
 
-// 获取窗口的几何信息
+// RawGeometry 获取窗口的几何信息
 func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 	geometry, err := xproto.GetGeometry(X.Conn(), window).Reply()
 	if err != nil {
@@ -120,7 +120,7 @@ func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 	return xrect.New(int(geometry.X), int(geometry.Y), int(geometry.Width), int(geometry.Height)), nil
 }
 
-// 创建一个窗口
+// NewWindow 创建一个窗口
 func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
 	// 获取当前根窗口
 	rootWindow := X.RootWin()
