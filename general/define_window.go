@@ -33,6 +33,10 @@ import (
 	"github.com/BurntSushi/xgbutil/xwindow"
 )
 
+const (
+	EscKeySym = 9
+)
+
 // renderGradient 渲染渐变
 func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color color.RGBA, ttf string, message string, size float64) {
 	// xgraphics.New()创建一个新的xgraphics.Image
@@ -166,7 +170,7 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 			// LookupString()返回一个字符串，表示按下的键（英文字符串）
 			keyStr := keybind.LookupString(X, e.State, e.Detail)
 			// 如果按下的是Ctrl-Alt-ESC组合键，则退出（9代表ESC键）
-			if e.State&xproto.ModMaskControl > 0 && e.State&xproto.ModMask1 > 0 && e.Detail == 9 {
+			if e.State == (xproto.ModMaskControl|xproto.ModMask1) && e.Detail == EscKeySym {
 				caser := cases.Title(language.English)
 				if strings.HasSuffix(strings.ToLower(caser.String(modStr)), "control-mod1") {
 					modStr = "Control-Alt"
