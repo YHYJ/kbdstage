@@ -17,6 +17,8 @@
 
 <!-- vim-markdown-toc GFM -->
 
+* [Install](#install)
+  * [一键安装](#一键安装)
 * [Usage](#usage)
 * [Compile](#compile)
   * [当前平台](#当前平台)
@@ -42,6 +44,14 @@
 ---
 
 一个键盘输入拦截器，用来擦键盘的
+
+## Install
+
+### 一键安装
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/YHYJ/kbdstage/main/install.sh | sudo bash -s
+```
 
 ## Usage
 
