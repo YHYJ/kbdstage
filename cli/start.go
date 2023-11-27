@@ -10,9 +10,6 @@ Description: 子命令`start`功能函数
 package cli
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/BurntSushi/xgb/xproto"
 	"github.com/BurntSushi/xgbutil"
 	"github.com/BurntSushi/xgbutil/xevent"
@@ -20,21 +17,14 @@ import (
 )
 
 var (
-	// 界面文本字体
-	ttf = "resources/font/LCD_Solid.ttf"
-	// 界面文本字体大小
-	fontSize = 0.0
-	// 界面文本字体放大倍率
-	fontScale = 100.0
-	// 界面文本
-	message = "Capturing keyboard input, type Control-Alt-ESC to exit."
+	ttf       = "resources/font/LCD_Solid.ttf"                            // 界面文本字体
+	fontSize  = 0.0                                                       // 界面文本字体大小
+	fontScale = 100.0                                                     // 界面文本字体放大倍率
+	message   = "Capturing keyboard input, type Control-Alt-ESC to exit." // 界面文本
 )
 
 // Start 启动 Kbdstage
 func Start() {
-	// 初始化随机数种子
-	rand.New(rand.NewSource(time.Now().UnixNano()))
-
 	X, err := xgbutil.NewConn()
 	if err != nil {
 		panic(err)
@@ -49,6 +39,7 @@ func Start() {
 	// 根据窗口大小计算字体大小
 	fontSize = float64(geometry.Height()) / float64(geometry.Width()) * fontScale
 
+	// 创建窗口
 	general.NewWindow(X, geometry.Width(), geometry.Height(), general.RandomColorRGBA(), general.RandomColorRGBA(), ttf, message, fontSize)
 
 	// 监听键盘事件

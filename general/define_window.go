@@ -34,16 +34,27 @@ import (
 )
 
 const (
-	EscKeySym = 9
+	EscKeySym = 9 // ESC 键码
 )
 
 // renderGradient 渲染渐变
+//
+// 参数：
+//   - X: X Window Server 连接对象
+//   - window: 窗口 ID
+//   - width: 窗口宽度
+//   - height: 窗口高度
+//   - start_color: 起始颜色
+//   - end_color: 结束颜色
+//   - ttf: 字体文件
+//   - message: 提示信息
+//   - size: 字体大小
 func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color color.RGBA, ttf string, message string, size float64) {
-	// xgraphics.New()创建一个新的xgraphics.Image
-	// img.Rect()绘制一个矩形，前两个参数是Pt(x0, y0)，后两个参数是Pt(x1, y1)
+	// xgraphics.New() 创建一个新的 xgraphics.Image
+	// img.Rect() 绘制一个矩形，前两个参数是 Pt(x0, y0) ，后两个参数是 Pt(x1, y1)
 	img := xgraphics.New(X, image.Rect(0, 0, width, height))
 
-	// 计算起始颜色start_color和结束颜色end_color之间的渐变步进长度
+	// 计算起始颜色 start_color 和结束颜色 end_color 之间的渐变步进长度
 	rinc := (0xff * (int(end_color.R) - int(start_color.R))) / width
 	ginc := (0xff * (int(end_color.G) - int(start_color.G))) / width
 	binc := (0xff * (int(end_color.B) - int(start_color.B))) / width
@@ -57,16 +68,16 @@ func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, s
 	})
 
 	// 将图像设置到窗口
-	// XSurfaceSet()（包含CreatePixmap）需要在XDraw()之前调用
+	// XSurfaceSet() （包含CreatePixmap）需要在 XDraw() 之前调用
 	img.XSurfaceSet(window)
 
 	// 渲染消息文本
 	renderText(img, ttf, message, size, rand.Intn(width/3), rand.Intn(height-100))
 
-	// 将消息文本写入图像（写入的是缓冲区，需要调用XPaint()才会将所绘制的内容显示在屏幕上）
+	// 将消息文本写入图像（写入的是缓冲区，需要调用 XPaint() 才会将所绘制的内容显示在屏幕上）
 	img.XDraw()
 
-	// 将XDraw()写入缓冲区的内容绘制在屏幕上
+	// 将 XDraw() 写入缓冲区的内容绘制在屏幕上
 	img.XPaint(window)
 
 	// 绘制完成，释放资源
@@ -74,6 +85,14 @@ func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, s
 }
 
 // renderText 渲染文本
+//
+// 参数：
+//   - img: 图像
+//   - ttf: 字体文件
+//   - text: 文本
+//   - size: 字体大小
+//   - x: 文本的 x 坐标
+//   - y: 文本的 y 坐标
 func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, y int) {
 	// 加载字体文件
 	fontData, err := Asset(ttf)
@@ -105,6 +124,9 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 }
 
 // RandomColorRGBA 返回一个随机的 color.RGBA
+//
+// 返回：
+//   - RGBA 颜色值
 func RandomColorRGBA() color.RGBA {
 	return color.RGBA{
 		R: uint8(rand.Intn(256)),
@@ -115,6 +137,14 @@ func RandomColorRGBA() color.RGBA {
 }
 
 // RawGeometry 获取窗口的几何信息
+//
+// 参数：
+//   - X: X Window Server 连接对象
+//   - window: 窗口 ID
+//
+// 返回：
+//   - 窗口的几何信息
+//   - 错误信息
 func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 	geometry, err := xproto.GetGeometry(X.Conn(), window).Reply()
 	if err != nil {
@@ -125,23 +155,33 @@ func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 }
 
 // NewWindow 创建一个窗口
+//
+// 参数：
+//   - X: X Window Server 连接对象
+//   - width: 窗口宽度
+//   - height: 窗口高度
+//   - start: 窗口开始颜色
+//   - end: 窗口结束颜色
+//   - ttf: 字体文件
+//   - message: 消息文本
+//   - size: 字体大小
 func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
 	// 获取当前根窗口
 	rootWindow := X.RootWin()
-	// 对X连接调用一次keybind.Initialize
+	// 对 X 调用一次 keybind.Initialize
 	keybind.Initialize(X)
 
-	// 调用keybind.GrabKeyboard拦截指定窗口的键盘输入
+	// 调用 keybind.GrabKeyboard 拦截指定窗口的键盘输入
 	if err := keybind.GrabKeyboard(X, rootWindow); err != nil {
 		panic(err)
 	}
 
-	// 生成一个新窗口ID
+	// 生成一个新窗口 ID
 	newWindow, err := xwindow.Generate(X)
 	if err != nil {
 		panic(err)
 	}
-	// 使用该ID创建一个新窗口
+	// 使用该 ID 创建一个新窗口
 	if err := newWindow.CreateChecked(rootWindow, 0, 0, width, height, 0); err != nil {
 		panic(err)
 	}
@@ -157,19 +197,19 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 		}
 	}()
 
-	// 调用Map()绘制窗口
+	// 调用 Map() 绘制窗口
 	newWindow.Map()
 
-	// 因为在调用Map()之后，窗口会接收到Expose事件，所以需要再次调用Listen()来监听Expose事件
+	// 因为在调用 Map() 之后，窗口会接收到 Expose 事件，所以需要再次调用 Listen() 来监听 Expose 事件
 	newWindow.Listen(xproto.EventMaskKeyPress)
 
 	xevent.KeyPressFun(
 		func(X *xgbutil.XUtil, e xevent.KeyPressEvent) {
-			// ModifierString()返回一个字符串，表示按下的修饰键
+			// ModifierString() 返回一个字符串，表示按下的修饰键
 			modStr := keybind.ModifierString(e.State)
-			// LookupString()返回一个字符串，表示按下的键（英文字符串）
+			// LookupString() 返回一个字符串，表示按下的键（英文字符串）
 			keyStr := keybind.LookupString(X, e.State, e.Detail)
-			// 如果按下的是Ctrl-Alt-ESC组合键，则退出（9代表ESC键）
+			// 如果按下的是 Ctrl-Alt-ESC 组合键，则退出（9代表 ESC 键）
 			if e.State == (xproto.ModMaskControl|xproto.ModMask1) && e.Detail == EscKeySym {
 				caser := cases.Title(language.English)
 				if strings.HasSuffix(strings.ToLower(caser.String(modStr)), "control-mod1") {
