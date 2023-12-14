@@ -10,8 +10,11 @@ Description: 程序子命令'start'时执行
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/yhyj/kbdstage/cli"
+	"github.com/yhyj/kbdstage/general"
 )
 
 // startCmd represents the start command
@@ -20,7 +23,15 @@ var startCmd = &cobra.Command{
 	Short: "Start keyboard input interception",
 	Long:  `Start the kbdstage keyboard input interceptor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cli.Start()
+		if general.Platform == "linux" {
+			if general.GetVariable("DISPLAY") != "" {
+				cli.Start()
+			} else {
+				fmt.Println("Could not connect to display")
+			}
+		} else {
+			fmt.Println("Current platform is not supported")
+		}
 	},
 }
 
