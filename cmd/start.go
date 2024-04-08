@@ -4,14 +4,13 @@ Author: YJ
 Email: yj1516268@outlook.com
 Created Time: 2023-07-13 11:38:18
 
-Description: 程序子命令'start'时执行
+Description: 执行子命令 'start'
 */
 
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"github.com/yhyj/kbdstage/cli"
 	"github.com/yhyj/kbdstage/general"
@@ -27,10 +26,10 @@ var startCmd = &cobra.Command{
 			if general.GetVariable("DISPLAY") != "" {
 				cli.Start()
 			} else {
-				fmt.Println("Could not connect to display")
+				color.Printf("%s\n", general.ErrorText("Could not connect to display"))
 			}
 		} else {
-			fmt.Println("Current platform is not supported")
+			color.Printf("%s\n", general.ErrorText("Current platform is not supported"))
 		}
 	},
 }

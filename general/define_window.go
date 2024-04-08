@@ -13,9 +13,8 @@ package general
 
 import (
 	"bytes"
-	"fmt"
 	"image"
-	"image/color"
+	icolor "image/color"
 	"math/rand"
 	"strings"
 	"time"
@@ -31,6 +30,7 @@ import (
 	"github.com/BurntSushi/xgbutil/xgraphics"
 	"github.com/BurntSushi/xgbutil/xrect"
 	"github.com/BurntSushi/xgbutil/xwindow"
+	"github.com/gookit/color"
 )
 
 const (
@@ -49,7 +49,7 @@ const (
 //   - ttf: 字体文件
 //   - message: 提示信息
 //   - size: 字体大小
-func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color color.RGBA, ttf string, message string, size float64) {
+func renderGradient(X *xgbutil.XUtil, window xproto.Window, width, height int, start_color, end_color icolor.RGBA, ttf string, message string, size float64) {
 	// xgraphics.New() 创建一个新的 xgraphics.Image
 	// img.Rect() 绘制一个矩形，前两个参数是 Pt(x0, y0) ，后两个参数是 Pt(x1, y1)
 	img := xgraphics.New(X, image.Rect(0, 0, width, height))
@@ -127,8 +127,8 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 //
 // 返回：
 //   - RGBA 颜色值
-func RandomColorRGBA() color.RGBA {
-	return color.RGBA{
+func RandomColorRGBA() icolor.RGBA {
+	return icolor.RGBA{
 		R: uint8(rand.Intn(256)),
 		G: uint8(rand.Intn(256)),
 		B: uint8(rand.Intn(256)),
@@ -165,7 +165,7 @@ func RawGeometry(X *xgbutil.XUtil, window xproto.Drawable) (xrect.Rect, error) {
 //   - ttf: 字体文件
 //   - message: 消息文本
 //   - size: 字体大小
-func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf string, message string, size float64) {
+func NewWindow(X *xgbutil.XUtil, width, height int, start, end icolor.RGBA, ttf string, message string, size float64) {
 	// 获取当前根窗口
 	rootWindow := X.RootWin()
 	// 对 X 调用一次 keybind.Initialize
@@ -215,7 +215,7 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end color.RGBA, ttf s
 				if strings.HasSuffix(strings.ToLower(caser.String(modStr)), "control-mod1") {
 					modStr = "Control-Alt"
 				}
-				fmt.Printf("%s-%s pressed, exiting...\n", modStr, caser.String(keyStr))
+				color.Printf("%s-%s pressed, exiting...\n", NoticeText(modStr), NoticeText(caser.String(keyStr)))
 				xevent.Quit(X)
 			}
 		}).Connect(X, rootWindow)
