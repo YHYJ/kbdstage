@@ -26,10 +26,10 @@ var startCmd = &cobra.Command{
 			if general.GetVariable("DISPLAY") != "" {
 				cli.Start()
 			} else {
-				color.Printf("%s\n", general.ErrorText("Could not connect to display"))
+				color.Printf("%s\n", general.DangerText("Could not connect to display"))
 			}
 		} else {
-			color.Printf("%s\n", general.ErrorText("Current platform is not supported"))
+			color.Printf("%s\n", general.DangerText("Current platform is not supported"))
 		}
 	},
 }
