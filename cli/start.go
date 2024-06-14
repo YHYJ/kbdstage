@@ -13,6 +13,7 @@ import (
 	"github.com/BurntSushi/xgb/xproto"
 	"github.com/BurntSushi/xgbutil"
 	"github.com/BurntSushi/xgbutil/xevent"
+	"github.com/gookit/color"
 	"github.com/yhyj/kbdstage/general"
 )
 
@@ -27,13 +28,15 @@ var (
 func Start() {
 	X, err := xgbutil.NewConn()
 	if err != nil {
-		panic(err)
+		fileName, lineNo := general.GetCallerInfo()
+		color.Danger.Printf("Connect X server error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 创建一个随机渐变色的窗口
 	geometry, err := general.RawGeometry(X, xproto.Drawable(X.RootWin()))
 	if err != nil {
-		panic(err)
+		fileName, lineNo := general.GetCallerInfo()
+		color.Danger.Printf("Get window info error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 根据窗口大小计算字体大小

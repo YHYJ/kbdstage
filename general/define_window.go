@@ -97,7 +97,8 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	// 加载字体文件
 	fontData, err := Asset(ttf)
 	if err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Load font error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 创建一个字体文件阅读器
@@ -106,13 +107,15 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	// 解析字体
 	font, err := xgraphics.ParseFont(reader)
 	if err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Parse font error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 绘制文本
 	_, _, err = img.Text(x, y, RandomColorRGBA(), size, font, text)
 	if err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Text on image error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 计算文本行最适当的宽度和高度
@@ -173,17 +176,20 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end icolor.RGBA, ttf 
 
 	// 调用 keybind.GrabKeyboard 拦截指定窗口的键盘输入
 	if err := keybind.GrabKeyboard(X, rootWindow); err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Grab keyboard error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 生成一个新窗口 ID
 	newWindow, err := xwindow.Generate(X)
 	if err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Generate resource error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 	// 使用该 ID 创建一个新窗口
 	if err := newWindow.CreateChecked(rootWindow, 0, 0, width, height, 0); err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Create window error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 
 	// 监听键盘按下和释放事件
@@ -222,10 +228,12 @@ func NewWindow(X *xgbutil.XUtil, width, height int, start, end icolor.RGBA, ttf 
 
 	// 发送一个窗口管理器状态请求信息，请求窗口切换到全屏模式
 	if err := ewmh.WmStateReq(X, newWindow.Id, ewmh.StateToggle, "_NET_WM_STATE_FULLSCREEN"); err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("Full screen error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 	// 发送一个窗口管理器状态请求信息，请求窗口切换到最上层
 	if err := ewmh.WmStateReq(X, newWindow.Id, ewmh.StateToggle, "_NET_WM_STATE_ABOVE"); err != nil {
-		panic(err)
+		fileName, lineNo := GetCallerInfo()
+		color.Danger.Printf("On top error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
 }
