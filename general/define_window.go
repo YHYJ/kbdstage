@@ -112,8 +112,7 @@ func renderText(img *xgraphics.Image, ttf string, text string, size float64, x, 
 	}
 
 	// 绘制文本
-	_, _, err = img.Text(x, y, RandomColorRGBA(), size, font, text)
-	if err != nil {
+	if _, _, err = img.Text(x, y, RandomColorRGBA(), size, font, text); err != nil {
 		fileName, lineNo := GetCallerInfo()
 		color.Danger.Printf("Text on image error (%s:%d): %s\n", fileName, lineNo+1, err)
 	}
