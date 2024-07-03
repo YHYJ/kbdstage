@@ -29,14 +29,14 @@ func Start() {
 	X, err := xgbutil.NewConn()
 	if err != nil {
 		fileName, lineNo := general.GetCallerInfo()
-		color.Printf("%s %s -> Unable to connect to X server: %s\n", general.DangerText("Error:"), general.SecondaryText("[", fileName, ":", lineNo+1, "]"), err)
+		color.Printf("%s %s %s\n", general.DangerText(general.ErrorInfoFlag), general.SecondaryText("[", fileName, ":", lineNo+1, "]"), err)
 	}
 
 	// 创建一个随机渐变色的窗口
 	geometry, err := general.RawGeometry(X, xproto.Drawable(X.RootWin()))
 	if err != nil {
 		fileName, lineNo := general.GetCallerInfo()
-		color.Printf("%s %s -> Unable to get window info: %s\n", general.DangerText("Error:"), general.SecondaryText("[", fileName, ":", lineNo+1, "]"), err)
+		color.Printf("%s %s %s\n", general.DangerText(general.ErrorInfoFlag), general.SecondaryText("[", fileName, ":", lineNo+1, "]"), err)
 	}
 
 	// 根据窗口大小计算字体大小
