@@ -1,4 +1,5 @@
 <h1 align="center">Kbdstage</h1>
+<h3 align="center">一个 Linux 键盘输入拦截器，清理键盘时用</h3>
 
 <!-- File: README.md -->
 <!-- Author: YJ -->
@@ -17,14 +18,14 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Install](#install)
+* [适配](#适配)
+* [安装](#安装)
   * [一键安装](#一键安装)
-* [Usage](#usage)
-* [Compile](#compile)
-  * [当前平台](#当前平台)
-  * [交叉编译](#交叉编译)
-    * [Linux](#linux)
-* [Screenshot](#screenshot)
+  * [编译安装](#编译安装)
+    * [当前平台](#当前平台)
+    * [交叉编译](#交叉编译)
+* [用法](#用法)
+* [截图](#截图)
 
 <!-- vim-markdown-toc -->
 
@@ -41,9 +42,13 @@
 
 ---
 
-一个 Linux 键盘输入拦截器，用来擦键盘的
+## 适配
 
-## Install
+- Linux: 适配（需要 X Server 或 XWayland）
+- macOS: 不适配
+- Windows: 不适配
+
+## 安装
 
 ### 一键安装
 
@@ -51,7 +56,35 @@
 curl -fsSL https://raw.githubusercontent.com/YHYJ/kbdstage/main/install.sh | sudo bash -s
 ```
 
-## Usage
+也可以从 [GitHub Releases](https://github.com/YHYJ/kbdstage/releases) 下载解压后使用
+
+### 编译安装
+
+#### 当前平台
+
+如果要为当前平台编译，可以使用以下命令：
+
+```bash
+go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
+```
+
+#### 交叉编译
+
+> 使用命令`go tool dist list`查看支持的平台
+>
+> Linux 和 macOS 使用命令`uname -m`，Windows 使用命令`echo %PROCESSOR_ARCHITECTURE%` 确认系统架构
+>
+> - 例如 x86_64 则设 GOARCH=amd64
+> - 例如 aarch64 则设 GOARCH=arm64
+> - ...
+
+设置如下系统变量后使用 [编译安装](#编译安装) 的命令即可进行交叉编译：
+
+- CGO_ENABLED: 不使用 CGO，设为 0
+- GOOS: 设为 linux
+- GOARCH: 根据当前系统架构设置
+
+## 用法
 
 - `start`子命令
 
@@ -65,29 +98,6 @@ curl -fsSL https://raw.githubusercontent.com/YHYJ/kbdstage/main/install.sh | sud
 
   查看程序帮助信息
 
-## Compile
-
-### 当前平台
-
-```bash
-go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
-```
-
-### 交叉编译
-
-使用命令`go tool dist list`查看支持的平台
-
-#### Linux
-
-```bash
-CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -gcflags="-trimpath" -ldflags="-s -w -X github.com/yhyj/kbdstage/general.GitCommitHash=`git rev-parse HEAD` -X github.com/yhyj/kbdstage/general.BuildTime=`date +%s` -X github.com/yhyj/kbdstage/general.BuildBy=$USER" -o build/kbdstage main.go
-```
-
-> 使用`uname -m`确定硬件架构
->
-> - 结果是 x86_64 则 GOARCH=amd64
-> - 结果是 aarch64 则 GOARCH=arm64
-
-## Screenshot
+## 截图
 
 ![Screenshot](resources/screenshots/1.png)
