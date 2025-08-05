@@ -64,7 +64,7 @@ func (fi bindataFileInfo) ModTime() time.Time {
 func (fi bindataFileInfo) IsDir() bool {
 	return false
 }
-func (fi bindataFileInfo) Sys() interface{} {
+func (fi bindataFileInfo) Sys() any {
 	return nil
 }
 
@@ -92,7 +92,7 @@ func resourceLcd_solidTtf() (*asset, error) {
 // It returns an error if the asset could not be found or
 // could not be loaded.
 func Asset(name string) ([]byte, error) {
-	canonicalName := strings.Replace(name, "\\", "/", -1)
+	canonicalName := strings.ReplaceAll(name, "\\", "/")
 	if f, ok := _bindata[canonicalName]; ok {
 		a, err := f()
 		if err != nil {
@@ -130,7 +130,7 @@ func MustAssetString(name string) string {
 // It returns an error if the asset could not be found or
 // could not be loaded.
 func AssetInfo(name string) (os.FileInfo, error) {
-	canonicalName := strings.Replace(name, "\\", "/", -1)
+	canonicalName := strings.ReplaceAll(name, "\\", "/")
 	if f, ok := _bindata[canonicalName]; ok {
 		a, err := f()
 		if err != nil {
@@ -144,7 +144,7 @@ func AssetInfo(name string) (os.FileInfo, error) {
 // AssetDigest returns the digest of the file with the given name. It returns an
 // error if the asset could not be found or the digest could not be loaded.
 func AssetDigest(name string) ([sha256.Size]byte, error) {
-	canonicalName := strings.Replace(name, "\\", "/", -1)
+	canonicalName := strings.ReplaceAll(name, "\\", "/")
 	if f, ok := _bindata[canonicalName]; ok {
 		a, err := f()
 		if err != nil {
@@ -203,7 +203,7 @@ const AssetDebug = false
 func AssetDir(name string) ([]string, error) {
 	node := _bintree
 	if len(name) != 0 {
-		canonicalName := strings.Replace(name, "\\", "/", -1)
+		canonicalName := strings.ReplaceAll(name, "\\", "/")
 		pathList := strings.Split(canonicalName, "/")
 		for _, p := range pathList {
 			node = node.Children[p]
@@ -272,6 +272,6 @@ func RestoreAssets(dir, name string) error {
 }
 
 func _filePath(dir, name string) string {
-	canonicalName := strings.Replace(name, "\\", "/", -1)
+	canonicalName := strings.ReplaceAll(name, "\\", "/")
 	return filepath.Join(append([]string{dir}, strings.Split(canonicalName, "/")...)...)
 }
